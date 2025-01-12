@@ -1,6 +1,6 @@
 # Create a new directory
 
-cd college-advisor-pro
+
 
 # Create a virtual environment
 python -m venv venv
