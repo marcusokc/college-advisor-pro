@@ -43,3 +43,27 @@ if st.button("Upgrade to Premium"):
     st.write("Redirecting you to the payment page...")
     # Link to payment (replace with your payment gateway URL)
     st.markdown("[Click here to pay](https://your-payment-link.com)")
+    import pandas as pd
+import os
+
+file_path = "submissions.csv"
+
+if submitted and name and email and interests and education_level != "Select...":
+    # Check if the file exists
+    if os.path.exists(file_path):
+        existing_data = pd.read_csv(file_path)
+    else:
+        existing_data = pd.DataFrame(columns=["Name", "Email", "Interests", "Education Level"])
+
+    # Append new submission
+    new_data = pd.DataFrame([{
+        "Name": name,
+        "Email": email,
+        "Interests": interests,
+        "Education Level": education_level
+    }])
+    updated_data = pd.concat([existing_data, new_data], ignore_index=True)
+
+    # Save back to CSV
+    updated_data.to_csv(file_path, index=False)
+    st.success("Your information has been saved!")
