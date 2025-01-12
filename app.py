@@ -1,5 +1,5 @@
 # Create a new directory
-mkdir college-advisor-pro
+
 cd college-advisor-pro
 
 # Create a virtual environment
