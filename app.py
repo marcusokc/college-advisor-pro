@@ -1,50 +1,58 @@
 import streamlit as st
 
 # App Title
-st.title("College Advisor Pro")
-st.write("Welcome! Fill out the form below to get personalized recommendations.")
+st.title("College and Career Advisor")
 
-# Form for User Input
+# Introduction
+st.write("""
+Welcome to the College and Career Advisor! Fill out the form below to get personalized recommendations for schools, scholarships, and financial aid options.
+""")
+
+# Form
 with st.form("user_form"):
+    st.header("Tell Us About Yourself")
     name = st.text_input("Full Name", placeholder="Enter your name")
     email = st.text_input("Email Address", placeholder="Enter your email")
-    interests = st.text_area("What are your academic or career interests?", placeholder="E.g., engineering, healthcare, arts")
+    gpa = st.text_input("GPA (on a 4.0 scale)", placeholder="E.g., 3.5")
+    test_scores = st.text_input("SAT/ACT Score", placeholder="E.g., 1200 SAT or 25 ACT")
+    household_income = st.selectbox(
+        "Household Income Range",
+        ["Select...", "Less than $30,000", "$30,000 - $60,000", "$60,000 - $100,000", "Over $100,000"]
+    )
     education_level = st.selectbox(
         "Current Education Level",
         ["Select...", "High School", "Undergraduate", "Graduate", "Other"]
     )
-    
-    # Submit Button
+    preferred_region = st.text_input("Preferred Location", placeholder="E.g., California, Midwest, etc.")
+    interests = st.text_area("Academic or Career Interests", placeholder="E.g., engineering, healthcare, arts")
+    extracurriculars = st.text_area("Extracurricular Activities", placeholder="E.g., sports, music, clubs")
+
     submitted = st.form_submit_button("Submit")
 
-# Show Results
+# Recommendations Section
 if submitted:
-    if name and email and interests and education_level != "Select...":
-        st.success(f"Thank you, {name}! Here are your recommendations:")
-        # Example of generating results
-        if "engineering" in interests.lower():
-            st.write("🔧 **Recommendation**: Explore programs in mechanical or software engineering.")
-        elif "healthcare" in interests.lower():
-            st.write("🩺 **Recommendation**: Consider nursing, pre-med, or public health studies.")
-        elif "arts" in interests.lower():
-            st.write("🎨 **Recommendation**: Look into graphic design, fine arts, or performing arts programs.")
+    if all([name, email, gpa, test_scores, household_income, education_level, preferred_region, interests]):
+        st.success(f"Thank you, {name}! Here are your personalized recommendations:")
+
+        # Example Recommendations
+        st.subheader("School Recommendations")
+        if float(gpa) >= 3.5:
+            st.write("🎓 **Reach Schools**: Stanford, MIT, Harvard")
+            st.write("🎓 **Safety Schools**: University of [Your State], Local Community Colleges")
         else:
-            st.write("📚 **Recommendation**: Explore general education and career exploration programs.")
+            st.write("🎓 **Start at a Community College**: Transfer to a 4-year program later.")
 
-        st.write("For more detailed guidance, check out our premium features below!")
+        st.subheader("Scholarships")
+        st.write("💰 **Pell Grants**: Based on income.")
+        st.write("💰 **Local Scholarships**: Contact your high school counselor.")
+
+        st.subheader("Financial Aid Tips")
+        st.write("✅ Complete the FAFSA early!")
+        st.write("✅ Look into work-study programs.")
+
+        st.info("For detailed recommendations, unlock premium features!")
     else:
-        st.error("Please complete all fields before submitting.")
-
-# Premium Features Section
-st.header("Unlock Premium Features")
-st.write("Get access to personalized college and career planning tools, exclusive resources, and expert advice.")
-
-if st.button("Upgrade to Premium"):
-    st.write("Redirecting you to the payment page...")
-    # Link to payment (replace with your payment gateway URL)
-    st.markdown("[Click here to pay](https://your-payment-link.com)")
-    import pandas as pd
-import os
+        st.error("Please complete all fields to get your recommendations.")
 
 file_path = "submissions.csv"
 
